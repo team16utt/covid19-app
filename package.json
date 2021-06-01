@@ -1,7 +1,9 @@
 {
   "name": "covid19-app",
   "version": "0.1.0",
-  "private": true,
+  "engines": {
+    "node": "12.11.1"
+  },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.13",
     "@chakra-ui/react": "^1.6.2",
