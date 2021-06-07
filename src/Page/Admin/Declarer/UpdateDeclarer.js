@@ -32,7 +32,7 @@ const UpdateDeclarer = (props) => {
   }, [id]);
 
   const sendDataHandler = (data) => {
-    return fetch(`http://45.32.102.61:8080/api/declare/${id}`, {
+    return fetch(`https://thingproxy.freeboard.io/fetch/http://45.32.102.61:8080/api/declare/${id}`, {
       method: "PUT",
       headers: {
         Accept: "application/json",

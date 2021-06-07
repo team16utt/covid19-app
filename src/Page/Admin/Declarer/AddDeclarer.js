@@ -8,7 +8,7 @@ const AddDeclarer = (props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useToast();
   const sendDataHandler = (data) => {
-    return fetch("http://45.32.102.61:8080/api/declare", {
+    return fetch("https://thingproxy.freeboard.io/fetch/http://45.32.102.61:8080/api/declare", {
       method: "POST",
       headers: {
         Accept: "application/json",
