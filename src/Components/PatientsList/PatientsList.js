@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react/cjs/react.development";
+import Covid19Vn from "../../Api/Covid19Vn/Covid19Vn";
 import Patients from "../../GeoData/patients.json";
 import "./PatientsList.css";
 
@@ -8,7 +9,8 @@ const PatientsList = ({ address }) => {
 
   useEffect(() => {
     const filterAddress = async () => {
-      const list = await Patients.filter((i) => i.address === address);
+      const {data} = await Covid19Vn.getPatients();
+      const list = data.filter((i) => i.location === address)
       setPatientList(list);
     };
     filterAddress();
@@ -33,8 +35,8 @@ const PatientsList = ({ address }) => {
                 if (i.status === "Khỏi") textClass = "text-success";
                 if (i.status === "Tử vong") textClass = "text-danger";  
                 return (
-                  <tr key={i.id} className={textClass}>
-                    <td>{i.id}</td>
+                  <tr key={i.patient} className={textClass}>
+                    <td>BN{i.patient}</td>
                     <td>{i.age}</td>
                     <td>{i.status}</td>
                   </tr>
