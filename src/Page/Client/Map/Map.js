@@ -7,49 +7,42 @@ import "./Map.css";
 import PatientsList from "../../../Components/PatientsList/PatientsList";
 import Position from "../../../Api/Position/Position";
 import Covid19Vn from "../../../Api/Covid19Vn/Covid19Vn";
+import { useToast } from "@chakra-ui/toast";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  useDisclosure,
+} from "@chakra-ui/react";
 const Map = () => {
   const [toolTip, setToolTip] = useState("");
   const [selectArr, setSelectArr] = useState([]);
   const [selectValue, setSelectValue] = useState();
   const [provinceValue, setProvinceValue] = useState([]);
   const [position, setPosition] = useState({});
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
-  useEffect((toast) => {
-    const locate = async () => {
-      try {
-        const { region } = await Position.locate();
-        const { data } = await Covid19Vn.getProvinces();
+  useEffect(() => {
+    onOpen();
 
-        const [res] = data.filter((i) => i.Province_Name === region);
-
-        if (res !== undefined) {
-          setSelectValue(res);
-          toast({
-            position: "bottom",
-            title: `Cảnh báo tình hình covid khu vực ${res.Province_Name} 😱`,
-            description: `Dương tính: ${res.Confirmed} , Phục hồi: ${res.Recovered} , Tử vong: ${res.Deaths}`,
-            status: "warning",
-            duration: 5000,
-            isClosable: true,
-          });
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setPosition({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        });
-        locate();
-      },
-      (error) => {
-        setPosition({});
-      }
-    );
+    // navigator.geolocation.getCurrentPosition(
+    //   (position) => {
+    //     setPosition({
+    //       latitude: position.coords.latitude,
+    //       longitude: position.coords.longitude,
+    //     });
+    //     locate();
+    //   },
+    //   (error) => {
+    //     setPosition({});
+    //   }
+    // );
   }, []);
 
   useEffect(() => {
@@ -72,6 +65,33 @@ const Map = () => {
     setSelectValue(provinceValue[42]);
     setSelectArr(arr);
   }, [provinceValue]);
+
+  const locate = async () => {
+    onClose();
+    try {
+      const { region, loc } = await Position.locate();
+      const { data } = await Covid19Vn.getProvinces();
+      const location = loc.split(",");
+      setPosition({
+        latitude: location[0],
+        longitude: location[1],
+      });
+      const [res] = data.filter((i) => i.Province_Name === region);
+      if (res !== undefined) {
+        setSelectValue(res);
+        toast({
+          position: "bottom",
+          title: `Cảnh báo tình hình covid khu vực ${res.Province_Name} 😱`,
+          description: `Dương tính: ${res.Confirmed} , Phục hồi: ${res.Recovered} , Tử vong: ${res.Deaths}`,
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleChangeSelect = (selectOption) => {
     try {
@@ -168,6 +188,26 @@ const Map = () => {
           )}
         </div>
       </main>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Cảnh báo vị trí 🚩</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            Ứng dụng sẽ truy cập vị trí của bạn để hiển thị cảnh báo. Bạn có cho
+            phép điều này xảy ra không?
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={locate}>
+              Cho phép
+            </Button>
+            <Button variant="ghost" onClick={onClose}>
+              Bỏ qua
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

@@ -4,6 +4,7 @@ import Covid19Vn from "../../Api/Covid19Vn/Covid19Vn";
 
 import "./PatientsList.css";
 
+
 const PatientsList = ({ address }) => {
   const [patientList, setPatientList] = useState([]);
 

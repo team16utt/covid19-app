@@ -105,7 +105,7 @@ const Statistical = () => {
   const onOpenDetail = (id) => {
     const [res] = declareList.filter((i) => i.id === id);
     setModal(res);
-    console.log(modal);
+    
     onOpen();
   };
   const handleFilterDeclarer = (e) => {

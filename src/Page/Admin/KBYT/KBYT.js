@@ -76,7 +76,7 @@ const KBYT = () => {
   const onOpenDetail = (id) => {
     const [res] = declareList.filter((i) => i.id === id);
     setModal(res);
-    console.log(modal);
+    
     onOpen();
   };
 
@@ -282,7 +282,7 @@ const KBYT = () => {
             <AlertDialogBody>Bạn có chắc chắn muốn xóa?</AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
+              <Button ref={cancelRef} onClick={onCloseAlert}>
                 Hủy bỏ
               </Button>
               <Button colorScheme="red" onClick={deleteDeclarer} ml={3}>

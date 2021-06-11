@@ -45,7 +45,7 @@ const Login = ({ setIsAuthenticated }) => {
       setIsSubmit(false);
       setIsAuthenticated(true);
     } catch (error) {
-      console.log(error);
+      
       toast({
         position: "bottom",
         title: `Đăng nhập thất bại 😱`,
