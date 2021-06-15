@@ -54,7 +54,7 @@ const Header = () => {
                     <NavLink to="/khai-bao-y-te">Khai báo y tế</NavLink>
                   </li>
                   <li>
-                    <a href="https://blogncov.000webhostapp.com/Home">Tin tức</a>
+                    <a href="https://ncovblog.000webhostapp.com/">Tin tức</a>
                   </li>
                 </ul>
               </nav>
