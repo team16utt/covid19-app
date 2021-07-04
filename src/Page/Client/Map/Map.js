@@ -28,21 +28,18 @@ const Map = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
+  const [patientList, setPatientList] = useState([]);
+
+  useEffect(() => {
+    const getPatientList = async () => {
+      const { data } = await Covid19Vn.getPatients();
+      setPatientList(data);
+    };
+    getPatientList();
+  }, []);
+
   useEffect(() => {
     onOpen();
-
-    // navigator.geolocation.getCurrentPosition(
-    //   (position) => {
-    //     setPosition({
-    //       latitude: position.coords.latitude,
-    //       longitude: position.coords.longitude,
-    //     });
-    //     locate();
-    //   },
-    //   (error) => {
-    //     setPosition({});
-    //   }
-    // );
   }, []);
 
   useEffect(() => {
@@ -70,13 +67,13 @@ const Map = () => {
     onClose();
     try {
       const { region, loc } = await Position.locate();
-      const { data } = await Covid19Vn.getProvinces();
+      // const { data } = await Covid19Vn.getProvinces();
       const location = loc.split(",");
       setPosition({
         latitude: location[0],
         longitude: location[1],
       });
-      const [res] = data.filter((i) => i.Province_Name === region);
+      const [res] = provinceValue.filter((i) => i.Province_Name === region);
       if (res !== undefined) {
         setSelectValue(res);
         toast({
@@ -181,7 +178,7 @@ const Map = () => {
                 </div>
                 <div className="track-item">
                   <p className="track-item__title">Danh sách bệnh nhân</p>
-                  <PatientsList address={selectValue.Province_Name} />
+                  <PatientsList address={selectValue.Province_Name} patients={patientList}/>
                 </div>
               </div>
             </div>

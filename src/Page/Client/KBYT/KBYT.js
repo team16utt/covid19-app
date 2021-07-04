@@ -11,7 +11,7 @@ const KBYT = () => {
   const [isVerify, setIsVerify] = useState(false);
 
   const sendDataHandler = (data) => {
-    return fetch("http://45.32.102.61:8080/api/declare", {
+    return fetch("http://45.32.102.61:80/api/declare", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -61,7 +61,7 @@ const KBYT = () => {
   };
 
   const sendOTPHandler = (otp) => {
-    return fetch(`http://45.32.102.61:8080/api/verify/${phoneNumber}`, {
+    return fetch(`http://45.32.102.61:80/authen/verify/${phoneNumber}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -125,7 +125,7 @@ const KBYT = () => {
     } else {
       console.log("data", data);
       setIsSubmitting(true);
-      fetch(`http://45.32.102.61:8080/api/verify/${data.phoneNumber}`, {
+      fetch(`http://45.32.102.61:80/authen/verify/${data.phoneNumber}`, {
         method: "GET",
         // headers: {
         //   Accept: "application/json",

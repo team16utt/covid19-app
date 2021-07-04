@@ -5,13 +5,13 @@ import Covid19Vn from "../../Api/Covid19Vn/Covid19Vn";
 import "./PatientsList.css";
 
 
-const PatientsList = ({ address }) => {
+const PatientsList = ({ address,patients }) => {
   const [patientList, setPatientList] = useState([]);
 
   useEffect(() => {
     const filterAddress = async () => {
-      const {data} = await Covid19Vn.getPatients();
-      const list = data.filter((i) => i.location === address)
+      // const {data} = await Covid19Vn.getPatients();
+      const list = patients.filter((i) => i.location === address)
       setPatientList(list);
     };
     filterAddress();

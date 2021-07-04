@@ -11,28 +11,31 @@ const UpdateDeclarer = (props) => {
   const { id } = useParams();
   const toast = useToast();
 
-  useEffect((toast) => {
-    const fectDeclarerById = async () => {
-      try {
-        const { data } = await Admin.getDeclarerById(id);
-        setDeclarer(data);
-      } catch (error) {
-        console.log(error);
-        toast({
-          position: "bottom",
-          title: "Lỗi 😷",
-          description: "Không thể tìm thấy thông tin khai báo",
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
-      }
-    };
-    fectDeclarerById();
-  }, [id]);
+  useEffect(
+    (toast) => {
+      const fectDeclarerById = async () => {
+        try {
+          const { data } = await Admin.getDeclarerById(id);
+          setDeclarer(data);
+        } catch (error) {
+          console.log(error);
+          toast({
+            position: "bottom",
+            title: "Lỗi 😷",
+            description: "Không thể tìm thấy thông tin khai báo",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+        }
+      };
+      fectDeclarerById();
+    },
+    [id]
+  );
 
   const sendDataHandler = (data) => {
-    return fetch(`http://45.32.102.61:8080/api/declare/${id}`, {
+    return fetch(`http://45.32.102.61:80/api/declare/${id}`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -70,6 +73,7 @@ const UpdateDeclarer = (props) => {
           props.history.push("/quan-ly/kbyt");
         })
         .catch((er) => {
+          console.log(body);
           toast({
             position: "bottom",
             title: "Đã có lỗi xảy ra",
